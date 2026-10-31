@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetMind AI | Smart Meeting Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- AUTHENTICATION -->
+<div id="authPage" class="auth-page">
+    <div class="auth-brand">
+        <div class="logo">M</div>
+        <h1>MeetMind <span>AI</span></h1>
+        <p>Your meetings. Your memory.</p>
+
+        <div class="hero-text">
+            <h2>Stop Just Recording.<br>
+                <span>Start Executing.</span>
+            </h2>
+            <p>Remember decisions, connect conversations and turn meetings into action.</p>
+        </div>
+    </div>
+
+    <div class="auth-box">
+        <div class="auth-tabs">
+            <button id="loginTab" class="selected" onclick="showAuth('login')">Login</button>
+            <button id="signupTab" onclick="showAuth('signup')">Sign Up</button>
+        </div>
+
+        <h2 id="authHeading">Welcome Back!</h2>
+        <p id="authDescription">Login to your workspace.</p>
+
+        <form id="authForm">
+            <label>Full Name</label>
+            <input id="username" type="text" placeholder="Enter your name" required>
+
+            <label>Password</label>
+            <input id="password" type="password" placeholder="Enter password" required minlength="6">
+
+            <div id="confirmBox" class="hidden">
+                <label>Confirm Password</label>
+                <input id="confirmPassword" type="password" placeholder="Confirm password">
+            </div>
+
+            <button type="submit" id="authButton">Login →</button>
+            <p id="authError" class="error"></p>
+        </form>
+    </div>
+</div>
+
+<!-- MAIN DASHBOARD -->
+<div id="dashboard" class="dashboard hidden">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="logo">M</div>
+            <h2>MeetMind <span>AI</span></h2>
+        </div>
+
+        <p class="side-label">WORKSPACE</p>
+
+        <button class="nav active" onclick="showPage('home',this)">▦ Dashboard</button>
+        <button class="nav" onclick="showPage('record',this)">◉ Live Recording</button>
+        <button class="nav" onclick="showPage('upload',this)">⇧ Upload Media</button>
+        <button class="nav" onclick="showPage('meetings',this)">◷ My Meetings</button>
+        <button class="nav" onclick="showPage('tasks',this)">✓ Action Items</button>
+        <button class="nav" onclick="showPage('copilot',this)">✧ AI Copilot</button>
+
+        <div class="sidebar-bottom">
+            <p>◈ Local-first workspace</p>
+            <button class="logout" onclick="logout()">↪ Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+            <span>Workspace / <b id="pageName">Dashboard</b></span>
+            <div class="profile">
+                <div class="avatar" id="avatar">U</div>
+                <span id="profileName">User</span>
+            </div>
+        </header>
+
+        <!-- HOME -->
+        <section id="home" class="page active">
+            <div class="welcome">
+                <div>
+                    <p class="tag">YOUR MEETING INTELLIGENCE HUB</p>
+                    <h1>Welcome, <span id="welcomeName">User</span>!</h1>
+                    <p>Everything important from your conversations, in one place.</p>
+                </div>
+                <button class="primary" onclick="showPage('record')">+ New Meeting</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <span>◷</span>
+                    <p>Total Meetings</p>
+                    <h2 id="totalMeetings">0</h2>
+                </div>
+                <div class="stat-card">
+                    <span>⌁</span>
+                    <p>Transcript Words</p>
+                    <h2 id="totalWords">0</h2>
+                </div>
+                <div class="stat-card">
+                    <span>✓</span>
+                    <p>Action Items</p>
+                    <h2 id="totalTasks">0</h2>
+                </div>
+                <div class="stat-card">
+                    <span>◈</span>
+                    <p>Meeting Hours</p>
+                    <h2 id="totalHours">0</h2>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <h2>Recent Meetings</h2>
+                <button class="text-btn" onclick="showPage('meetings')">View All →</button>
+            </div>
+
+            <div id="recentMeetings" class="meeting-list">
+                <div class="empty">
+                    <h3>No meetings yet</h3>
+                    <p>Start recording your first meeting!</p>
+                </div>
+            </div>
+
+            <div class="bottom-cards">
+                <div class="card">
+                    <h3>🧠 Contextual Memory</h3>
+                    <p>Connect important decisions across your meeting history.</p>
+                </div>
+                <div class="card">
+                    <h3>⚡ Real-Time Copilot</h3>
+                    <p>Turn conversations into structured notes and next steps.</p>
+                </div>
+                <div class="card">
+                    <h3>🛡️ Local-First Privacy</h3>
+                    <p>Keep your workspace data under your control.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RECORDING -->
+        <section id="record" class="page">
+            <div class="page-heading">
+                <p class="tag">LIVE MEETING INTELLIGENCE</p>
+                <h1>Live Recording</h1>
+                <p>Record conversations and view recognized speech.</p>
+            </div>
+
+            <div class="record-card">
+                <div class="record-status">
+                    <span id="recordStatus">● READY TO RECORD</span>
+                    <strong id="timer">00:00</strong>
+                </div>
+
+                <div id="wave" class="wave">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+
+                <h2 id="recordTitle">Ready when you are!</h2>
+                <p>Allow microphone permission to begin.</p>
+
+                <div class="record-buttons">
+                    <button id="startBtn" class="record-btn" onclick="startRecording()">● Start Recording</button>
+                    <button id="pauseBtn" class="secondary hidden" onclick="pauseRecording()">Pause</button>
+                    <button id="stopBtn" class="secondary hidden" onclick="stopRecording()">Stop</button>
+                </div>
+
+                <div class="language">
+                    <label>Transcription Language</label>
+                    <select id="language">
+                        <option value="en-US">English</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="te-IN">Telugu</option>
+                        <option value="ta-IN">Tamil</option>
+                        <option value="or-IN">Odia</option>
+                        <option value="bn-IN">Bengali</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="fr-FR">French</option>
+                        <option value="de-DE">German</option>
+                        <option value="ja-JP">Japanese</option>
+                        <option value="zh-CN">Chinese</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="transcript-card">
+                <h2>📝 Live Transcript</h2>
+                <textarea id="transcript" placeholder="Your recognized speech will appear here. You can also type or edit it manually..."></textarea>
+                <div class="transcript-footer">
+                    <span id="wordCount">0 words</span>
+                    <button class="text-btn" onclick="clearTranscript()">Clear</button>
+                </div>
+            </div>
+
+            <div class="save-row">
+                <div>
+                    <h3>Ready to generate meeting notes?</h3>
+                    <p>Save your transcript and generate a structured summary.</p>
+                </div>
+                <button class="primary" onclick="saveMeeting()">Generate Summary →</button>
+            </div>
+        </section>
+
+        <!-- UPLOAD -->
+        <section id="upload" class="page">
+            <div class="page-heading">
+                <p class="tag">MEDIA MANAGEMENT</p>
+                <h1>Upload Audio / Video</h1>
+                <p>Upload your existing meeting recordings.</p>
+            </div>
+
+            <div class="upload-card">
+                <div class="upload-area" id="dropArea">
+                    <div class="upload-icon">⇧</div>
+                    <h2>Upload your recording</h2>
+                    <p>Drag and drop or browse your device.</p>
+                    <input type="file" id="mediaFile" accept="audio/*,video/*">
+                    <label for="mediaFile" class="secondary choose-file">Choose File</label>
+                    <p id="fileName">MP3, WAV, M4A, MP4, WEBM</p>
+                </div>
+
+                <label>Optional Transcript</label>
+                <textarea id="uploadTranscript" placeholder="Paste an existing transcript here to generate a summary..."></textarea>
+
+                <button class="primary" onclick="processUpload()">Upload & Generate Summary →</button>
+                <p id="uploadMessage"></p>
+                <small>Media is saved locally in this browser. Automatic media transcription is not included in this demo.</small>
+            </div>
+        </section>
+
+        <!-- MEETINGS -->
+        <section id="meetings" class="page">
+            <div class="page-heading">
+                <p class="tag">YOUR MEETING HISTORY</p>
+                <h1>My Meetings</h1>
+                <p>All your saved meeting summaries.</p>
+            </div>
+            <div id="allMeetings" class="meeting-list"></div>
+        </section>
+
+        <!-- TASKS -->
+        <section id="tasks" class="page">
+            <div class="page-heading">
+                <p class="tag">PRODUCTIVITY</p>
+                <h1>Action Items</h1>
+                <p>Important next steps extracted from meeting transcripts.</p>
+            </div>
+            <div id="taskList" class="task-list"></div>
+        </section>
+
+        <!-- COPILOT -->
+        <section id="copilot" class="page">
+            <div class="page-heading">
+                <p class="tag">MEETING MEMORY</p>
+                <h1>MeetMind Copilot ✧</h1>
+                <p>Ask questions about your previous meetings.</p>
+            </div>
+
+            <div class="chat-card">
+                <div id="chatMessages" class="chat-messages">
+                    <div class="message assistant">
+                        <b>MeetMind AI</b>
+                        <p>Hello! Ask me about your meeting decisions, important points and next steps.</p>
+                    </div>
+                </div>
+
+                <form id="chatForm">
+                    <input id="chatInput" placeholder="Ask about your meetings..." required>
+                    <button class="primary">Send ↑</button>
+                </form>
+                <small>Demo copilot uses local transcript keyword search, not a generative AI model.</small>
+            </div>
+        </section>
+
+        <!-- MEETING DETAIL -->
+        <section id="detail" class="page">
+            <button class="text-btn" onclick="showPage('meetings')">← Back to meetings</button>
+            <div id="meetingDetail"></div>
+        </section>
+
+        <footer>MEETMIND AI • YOUR MEETINGS. YOUR MEMORY. • SMRU HACK DAY</footer>
+    </main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html> 
